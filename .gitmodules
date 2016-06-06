@@ -1,0 +1,3 @@
+[submodule "libstochbb"]
+	path = libstochbb
+	url = https://github.com/stochbb/libstochbb.git
