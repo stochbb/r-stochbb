@@ -1,5 +1,5 @@
 #include <RcppCommon.h>
-#include <stochbb/stochbb.hh>
+#include "lib/stochbb.hh"
 using namespace stochbb;
 
 RCPP_EXPOSED_CLASS_NODECL(Container);
@@ -75,6 +75,13 @@ Var maximum_List(const Rcpp::List &args) {
   return maximum(vars);
 }
 
+double _kolmogorov(const Var &var, size_t N, Eigen::Map<Eigen::VectorXd> data) {
+  return stochbb::kolmogorov(var, N, data);
+}
+
+double _logLikelihood(const Var &var, size_t N, Eigen::Map<Eigen::VectorXd> data) {
+  return stochbb::logLikelihood(var, N, data);
+}
 
 RCPP_MODULE(stochbb) {
   class_<Container>("Container")
@@ -152,4 +159,9 @@ RCPP_MODULE(stochbb) {
 
   function<Var, const Var &, const Var &, const Var &, const Var &>(
         "condchain", &stochbb::condchain);
+
+  function<double, const Var &, size_t, MapVec>(
+        "kolmogorov", &_kolmogorov);
+  function<double, const Var &, size_t, MapVec>(
+        "logLikelihood", &_logLikelihood);
 }
