@@ -39,7 +39,7 @@ rug(res[,1])
 costFunc <- function(theta) {
   S2 <- gamma(1,theta[1]);
   R <- V %+% minimum(S1, affine(S2, 1, d)) %+% M
-  return( kolmogorov(R, Nstep, res[,1]) )
+  return( kolmogorov(R, tmin, tmax, Nstep, res[,1]) )
 }
 
 print( optim(c(10), costFunc, method="L-BFGS-B", lower=c(1), upper=c(Inf)) )

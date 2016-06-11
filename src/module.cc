@@ -75,12 +75,12 @@ Var maximum_List(const Rcpp::List &args) {
   return maximum(vars);
 }
 
-double _kolmogorov(const Var &var, size_t N, Eigen::Map<Eigen::VectorXd> data) {
-  return stochbb::kolmogorov(var, N, data);
+double _kolmogorov(const Var &var, double tmin, double tmax, size_t N, Eigen::Map<Eigen::VectorXd> data) {
+  return stochbb::kolmogorov(var, tmin, tmax, N, data);
 }
 
-double _logLikelihood(const Var &var, size_t N, Eigen::Map<Eigen::VectorXd> data) {
-  return stochbb::logLikelihood(var, N, data);
+double _logLikelihood(const Var &var, double tmin, double tmax, size_t N, Eigen::Map<Eigen::VectorXd> data) {
+  return stochbb::logLikelihood(var, tmin, tmax, N, data);
 }
 
 RCPP_MODULE(stochbb) {
@@ -160,8 +160,8 @@ RCPP_MODULE(stochbb) {
   function<Var, const Var &, const Var &, const Var &, const Var &>(
         "condchain", &stochbb::condchain);
 
-  function<double, const Var &, size_t, MapVec>(
+  function<double, const Var &, double, double, size_t, MapVec>(
         "kolmogorov", &_kolmogorov);
-  function<double, const Var &, size_t, MapVec>(
+  function<double, const Var &, double, double, size_t, MapVec>(
         "logLikelihood", &_logLikelihood);
 }

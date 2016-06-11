@@ -17,8 +17,8 @@ M  <- gamma(1,150)
 # of R under control condition (Rc) on the interval (0, d] and diverges for T>d.
 Re <- V %+% minimum(S1, affine(S2, 1, d)) %+% M
 
-Nstep <- 1000;
-Nsam <- 30000;
+Nstep <- 2000;
+Nsam <- 10000;
 # Get some samples
 sam <- new(ExactSampler, c(Re))
 res <- array(0, c(Nsam,1))
@@ -34,11 +34,11 @@ Re$density$evalCDF(tmin2, tmax2, cdf2)
 
 costFunc <- function(theta) {
   # update S2 stage with theta
-  S2 <- gamma(1,theta[1]);
+  S2 <- gamma(1,theta[1]) %+% d;
   # Re-assemble result
-  R <- V %+% minimum(S1, affine(S2, 1, d)) %+% M
+  R <- V %+% minimum(S1, S2) %+% M
   # Evaluate logLikelihood of data given theta
-  return( -logLikelihood(R, Nstep, res[,1]) )
+  return( -logLikelihood(R, tmin, tmax, Nstep, res[,1]) )
 }
 
 # Find estimate
