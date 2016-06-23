@@ -158,7 +158,7 @@ RCPP_MODULE(stochbb) {
         "conditional", &conditional);
 
   function<Var, const Var &, const Var &, const Var &, const Var &>(
-        "condchain", &stochbb::condchain);
+        "condsum", &stochbb::condsum);
 
   function<double, const Var &, double, double, size_t, MapVec>(
         "kolmogorov", &_kolmogorov);
